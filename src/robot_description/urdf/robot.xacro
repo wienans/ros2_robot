@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<!-- ***************** -->
+	<!-- Imported elements -->
+	<!-- ***************** -->
+	<xacro:arg name="use_nominal_extrinsics" default="false" />
+
+    <xacro:include filename="parameter.xacro" />
+	<!-- import xacro files for the aitoXS robot -->
+	<!-- import the robot base xacro file  -->
+	<xacro:include filename="base.xacro" />
+
+	<!-- import the robot wheel xacro file  -->
+	<xacro:include filename="wheel.xacro" />
+
+	<xacro:robot_base />
+	<xacro:robot_wheel prefix="left" parent="base_link" angle="-1"/>
+	<xacro:robot_wheel prefix="right" parent="base_link" angle="1"/>
+</robot>
+

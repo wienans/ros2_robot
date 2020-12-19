@@ -1,0 +1,15 @@
+<robot name="parameter" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+    <!--Chassis Parameter-->
+    <xacro:property name="base_length" value="1.40" /> <!-- value="1.40" -->
+    <xacro:property name="base_width" value="0.705" /> <!-- value="0.705" -->
+    <xacro:property name="base_height" value="0.632" /> <!-- value="0.632" -->
+    <xacro:property name="base_mass" value="25.0" /> <!-- 25 in kg-->
+    <!--Wheel Parameter-->
+    <xacro:property name="wheel_radius" value="0.255"/>
+    <xacro:property name="wheel_height" value="0.05" />
+    <xacro:property name="wheel_mass" value="1" /> <!-- 1.5 in kg-->
+    <xacro:property name="track" value="0.62" /> <!--track/2-->
+
+</robot>
+
