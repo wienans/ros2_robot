@@ -29,5 +29,10 @@ def generate_launch_description():
             package='joint_state_publisher',
             executable='joint_state_publisher',
             arguments=[urdf_path],
+        ),
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            arguments=['-d', os.path.join(description_dir, 'rviz', 'robot.rviz')],
         )
     ])
