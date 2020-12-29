@@ -55,7 +55,7 @@ Visualization Manager:
           Value: true
         right_wheel:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 0.1
       Name: TF
       Show Arrows: true
       Show Axes: true

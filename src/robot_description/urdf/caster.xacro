@@ -1,0 +1,39 @@
+<robot name="caster" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="sphere_inertia" params="m r">
+    <inertia  ixx="${2*m*r*r/5}" ixy = "0" ixz = "0"
+              iyy="${2*m*r*r/5}" iyz = "0"
+              izz="${2*m*r*r/5}" /> 
+  </xacro:macro>
+  
+  <xacro:macro name="robot_caster" params="prefix parent front"> 
+    <link name="${prefix}_caster">
+      <visual>
+        <origin xyz="0 0 0" rpy="0  0  0 " /> 
+        <geometry>
+          <sphere radius="${caster_radius}" />
+        </geometry>
+        <material name="DarkGray" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0 " />
+        <geometry>
+          <sphere radius="${caster_radius}" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${caster_mass}" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <xacro:sphere_inertia  m="${caster_mass}" r="${caster_radius}" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_caster_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}_caster"/>
+      <origin xyz="${front*caster_dist} 0 ${-(wheel_radius-caster_radius)+0.001}" rpy="0 0 0" /> 
+    </joint>
+
+  </xacro:macro>
+
+</robot>

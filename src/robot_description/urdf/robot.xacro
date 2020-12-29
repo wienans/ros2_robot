@@ -13,9 +13,12 @@
 
 	<!-- import the robot wheel xacro file  -->
 	<xacro:include filename="wheel.xacro" />
+	<xacro:include filename="caster.xacro" />
 
 	<xacro:robot_base />
 	<xacro:robot_wheel prefix="left" parent="base_link" angle="-1"/>
 	<xacro:robot_wheel prefix="right" parent="base_link" angle="1"/>
+	<xacro:robot_caster prefix="front" parent="base_link" front="1"/>
+	<xacro:robot_caster prefix="back" parent="base_link" front="-1"/>
 </robot>
 
