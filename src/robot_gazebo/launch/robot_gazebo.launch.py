@@ -8,6 +8,7 @@ from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchD
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command,LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
+import xacro
 
 def generate_launch_description():
     # Use Simulation time from gazebo
@@ -24,6 +25,14 @@ def generate_launch_description():
 
     os.system("xacro -o {out_file_path} {in_file_path}".format(out_file_path=urdf_path,in_file_path=xacro_path))
     urdf_code = open(urdf_path).read()
+
+    #Load Controllers
+    controller_robot_description = {'robot_description': urdf_code}
+    diff_drive_controller = os.path.join(
+        get_package_share_directory('robot_control'),
+        'controllers',
+        'robot_control.yaml'
+        )
     declare_world_cmd = DeclareLaunchArgument(
         'world',
         # TODO(orduno) Switch back once ROS argument passing has been fixed upstream
@@ -53,16 +62,28 @@ def generate_launch_description():
                 'robot_description':Command(['xacro',' ', xacro_path])
                 }],
         )
+    start_controller_manager_cmd = Node(
+        package='controller_manager',
+        executable='ros2_control_node',
+        parameters=[controller_robot_description, diff_drive_controller],
+        output={
+          'stdout': 'screen',
+          'stderr': 'screen',
+          },
+    )
     start_rviz_cmd = Node(
             package='rviz2',
             executable='rviz2',
             arguments=['-d', os.path.join(description_dir, 'rviz', 'robot.rviz')],
         )
+
+    
     ld = LaunchDescription()
     ld.add_action(declare_world_cmd)
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_rviz_cmd)
     ld.add_action(gazebo)
     ld.add_action(spawn_robot_cmd)
+    ld.add_action(start_controller_manager_cmd)
 
     return ld

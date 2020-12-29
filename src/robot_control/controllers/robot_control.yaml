@@ -1,0 +1,16 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 2  # Hz
+
+    differential_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_state_controller:
+      type: joint_state_controller/JointStateController
+
+differential_drive_controller:
+  ros__parameters:
+    joints:
+      - wheel_left_joint
+      - wheel_right_joint
+    interface_name: velocity
