@@ -1,0 +1,107 @@
+<robot name="sensors" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="sensor_imu" params="prefix parent rate"> 
+    <joint name="${prefix}_imu_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${parent}"/>
+        <child link="${prefix}_imu_link"/>
+    </joint>
+    <link name="${prefix}_imu_link">
+        <inertial>
+            <mass value="0.001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+            <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+            <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+    <gazebo reference="${prefix}_imu_link">
+        <sensor name="${prefix}_imu" type="imu">
+            <always_on>true</always_on>
+            <!-- Publish at 30 hz -->
+            <update_rate>30</update_rate>
+            <plugin name="${prefix}_imu" filename="libgazebo_ros_imu_sensor.so">
+            <!-- <namespace>/${prefix}_imu</namespace> -->
+            <!-- frame_name ommited, will be "my_link" -->
+            </plugin>
+        </sensor>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:macro name="sensor_2dlidar" params="prefix parent rate"> 
+    <joint name="${prefix}_2dlidar_joint" type="fixed">
+        <origin xyz="0 0 ${base_height}" rpy="0 0 0" />
+        <parent link="${parent}"/>
+        <child link="${prefix}_2dlidar_link"/>
+    </joint>
+    <link name="${prefix}_2dlidar_link">
+        <inertial>
+            <mass value="0.001"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+            <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+            <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+    <gazebo reference="${prefix}_2dlidar_link">
+        <!-- Visuals / Collisions omitted for this example -->
+        <sensor type="ray" name="${prefix}_2dlidar">
+            <ray>
+            <scan>
+                <horizontal>
+                <samples>720</samples>
+                <resolution>1</resolution>
+                <min_angle>${-M_PI}</min_angle>
+                <max_angle>${M_PI}</max_angle>
+                </horizontal>
+            </scan>
+            <range>
+                <min>0.10</min>
+                <max>30.0</max>
+                <resolution>0.01</resolution>
+            </range>
+            </ray>
+            <always_on>true</always_on>
+            <visualize>true</visualize>
+            <!-- Using gazebo's update rate instead of plugin's -->
+            <update_rate>30</update_rate>
+            <!-- Using gazebo's noise instead of plugin's -->
+            <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+            </noise>
+            <plugin name="${prefix}_2dlidar" filename="libgazebo_ros_ray_sensor.so">
+            <!-- Change namespace and output topic so published topic is /rrbot/laser/scan -->
+            <ros>
+                <!-- <namespace>${prefix}_2dlidar</namespace> -->
+            </ros>
+            <!-- Set output to sensor_msgs/LaserScan to get same output type as gazebo_ros_laser -->
+            <output_type>sensor_msgs/LaserScan</output_type>
+            <!-- <frame_name> ommited, will default to hokuo_link -->
+            </plugin>
+        </sensor>
+    </gazebo>
+  </xacro:macro>
+
+</robot>

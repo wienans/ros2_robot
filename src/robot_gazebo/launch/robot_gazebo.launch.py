@@ -84,6 +84,6 @@ def generate_launch_description():
     ld.add_action(start_rviz_cmd)
     ld.add_action(gazebo)
     ld.add_action(spawn_robot_cmd)
-    ld.add_action(start_controller_manager_cmd)
+    # ld.add_action(start_controller_manager_cmd)
 
     return ld

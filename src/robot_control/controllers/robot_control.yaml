@@ -11,6 +11,6 @@ controller_manager:
 differential_drive_controller:
   ros__parameters:
     joints:
-      - wheel_left_joint
-      - wheel_right_joint
+      - left_wheel_joint
+      - right_wheel_joint
     interface_name: velocity
