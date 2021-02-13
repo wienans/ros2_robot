@@ -35,7 +35,7 @@
       <kd  value="1.0" />
       <fdir1 value="1 0 0"/>
       <turnGravityOff>false</turnGravityOff>
-      <!--<minDepth>0.005</minDepth> -->
+      <minDepth>0.005</minDepth>
     </gazebo>
 
     <joint name="${prefix}_wheel_joint" type="continuous">

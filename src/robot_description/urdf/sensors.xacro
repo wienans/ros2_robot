@@ -29,7 +29,7 @@
         <sensor name="${prefix}_imu" type="imu">
             <always_on>true</always_on>
             <!-- Publish at 30 hz -->
-            <update_rate>30</update_rate>
+            <update_rate>50</update_rate>
             <plugin name="${prefix}_imu" filename="libgazebo_ros_imu_sensor.so">
             <!-- <namespace>/${prefix}_imu</namespace> -->
             <!-- frame_name ommited, will be "my_link" -->
@@ -67,30 +67,31 @@
         <!-- Visuals / Collisions omitted for this example -->
         <sensor type="ray" name="${prefix}_2dlidar">
             <ray>
-            <scan>
-                <horizontal>
-                <samples>720</samples>
-                <resolution>1</resolution>
-                <min_angle>${-M_PI}</min_angle>
-                <max_angle>${M_PI}</max_angle>
-                </horizontal>
-            </scan>
-            <range>
-                <min>0.10</min>
-                <max>30.0</max>
-                <resolution>0.01</resolution>
-            </range>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.10</min>
+                    <max>10.0</max>
+                    <resolution>0.03</resolution>
+                </range>
             </ray>
             <always_on>true</always_on>
             <visualize>true</visualize>
             <!-- Using gazebo's update rate instead of plugin's -->
-            <update_rate>30</update_rate>
+            <update_rate>20</update_rate>
             <!-- Using gazebo's noise instead of plugin's -->
-            <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.01</stddev>
-            </noise>
+
             <plugin name="${prefix}_2dlidar" filename="libgazebo_ros_ray_sensor.so">
             <!-- Change namespace and output topic so published topic is /rrbot/laser/scan -->
             <ros>

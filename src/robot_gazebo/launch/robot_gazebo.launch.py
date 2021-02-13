@@ -17,7 +17,8 @@ def generate_launch_description():
     gazebo_ros_dir = get_package_share_directory('gazebo_ros')
     description_dir = get_package_share_directory('robot_description')
     gazebo_dir = get_package_share_directory('robot_gazebo')
-    world_path = os.path.join(gazebo_dir, 'worlds', 'empty_world.world')
+    world_path = os.path.join(gazebo_dir, 'worlds/empty_world/', 'empty_world.world')
+    # world_path = os.path.join(gazebo_dir, 'worlds/office/', 'service.world')
     xacro_path = os.path.join(description_dir, 'urdf', 'robot.xacro')
     urdf_path = os.path.join(description_dir, 'urdf', 'robot.urdf')
     #Launch configurationParam
@@ -50,7 +51,7 @@ def generate_launch_description():
     spawn_robot_cmd = Node(
         package='gazebo_ros', 
         executable='spawn_entity.py',
-        arguments=['-entity', 'robot', '-file', urdf_path],
+        arguments=['-entity', 'robot', '-file', urdf_path, '-x','0','-y','20'],
         output='screen'
         )
 
@@ -62,15 +63,15 @@ def generate_launch_description():
                 'robot_description':Command(['xacro',' ', xacro_path])
                 }],
         )
-    start_controller_manager_cmd = Node(
-        package='controller_manager',
-        executable='ros2_control_node',
-        parameters=[controller_robot_description, diff_drive_controller],
-        output={
-          'stdout': 'screen',
-          'stderr': 'screen',
-          },
-    )
+    # start_controller_manager_cmd = Node(
+    #     package='controller_manager',
+    #     executable='ros2_control_node',
+    #     parameters=[controller_robot_description, diff_drive_controller],
+    #     output={
+    #       'stdout': 'screen',
+    #       'stderr': 'screen',
+    #       },
+    # )
     start_rviz_cmd = Node(
             package='rviz2',
             executable='rviz2',
