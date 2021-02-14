@@ -17,8 +17,8 @@ def generate_launch_description():
     gazebo_ros_dir = get_package_share_directory('gazebo_ros')
     description_dir = get_package_share_directory('robot_description')
     gazebo_dir = get_package_share_directory('robot_gazebo')
-    world_path = os.path.join(gazebo_dir, 'worlds/empty_world/', 'empty_world.world')
-    # world_path = os.path.join(gazebo_dir, 'worlds/office/', 'service.world')
+    # world_path = os.path.join(gazebo_dir, 'worlds/empty_world/', 'empty_world.world')
+    world_path = os.path.join(gazebo_dir, 'worlds/office/', 'service.world')
     xacro_path = os.path.join(description_dir, 'urdf', 'robot.xacro')
     urdf_path = os.path.join(description_dir, 'urdf', 'robot.urdf')
     #Launch configurationParam
@@ -77,7 +77,15 @@ def generate_launch_description():
             executable='rviz2',
             arguments=['-d', os.path.join(description_dir, 'rviz', 'robot.rviz')],
         )
-
+    start_key_teleop = Node(
+        package="teleop_twist_keyboard",
+        node_executable="teleop_twist_keyboard",
+        output='screen',
+        prefix = 'xterm -e',
+        node_name='teleop',
+        remappings=[
+            ("cmd_vel", "/differential_drive_controller/cmd_vel")]
+        )
     
     ld = LaunchDescription()
     ld.add_action(declare_world_cmd)
@@ -85,6 +93,7 @@ def generate_launch_description():
     ld.add_action(start_rviz_cmd)
     ld.add_action(gazebo)
     ld.add_action(spawn_robot_cmd)
+    ld.add_action(start_key_teleop)
     # ld.add_action(start_controller_manager_cmd)
 
     return ld

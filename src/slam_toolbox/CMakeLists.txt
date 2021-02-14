@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 project(slam_toolbox)
 
+set(CMAKE_BUILD_TYPE Release) #None, Debug, Release, RelWithDebInfo, MinSizeRel
 add_compile_options(-std=c++14)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/CMake/")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/lib/karto_sdk/cmake)
-set(CMAKE_CXX_FLAGS "-fpermissive -std=c++14")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -std=c++14")
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(ament_cmake REQUIRED)
@@ -23,10 +24,10 @@ find_package(std_srvs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(nav2_map_server REQUIRED)
-find_package(rviz_default_plugins REQUIRED)
-find_package(rviz_rendering REQUIRED)
-find_package(rviz_common REQUIRED)
-find_package(interactive_markers REQUIRED)
+#find_package(rviz_default_plugins REQUIRED)
+#find_package(rviz_rendering REQUIRED)
+#find_package(rviz_common REQUIRED)
+#find_package(interactive_markers REQUIRED)
 
 #karto_sdk lib
 set(BUILD_SHARED_LIBS ON)
@@ -47,10 +48,10 @@ set(dependencies
   std_msgs
   std_srvs
   builtin_interfaces
-  rviz_common
-  rviz_rendering
-  rviz_default_plugins
-  interactive_markers
+  #rviz_common
+  #rviz_rendering
+  #rviz_default_plugins
+  #interactive_markers
 )
 
 set(libraries
@@ -59,7 +60,7 @@ set(libraries
     sync_slam_toolbox
     async_slam_toolbox
     toolbox_common
-    SlamToolboxPlugin
+    #SlamToolboxPlugin
     ceres_solver_plugin
 )
 
@@ -77,8 +78,7 @@ find_package(Boost REQUIRED system serialization filesystem thread)
 
 include_directories(include ${EIGEN3_INCLUDE_DIRS}
                             ${CHOLMOD_INCLUDE_DIR}
-                            ${Boost_INCLUDE_DIR}
-                            ${BOOST_INCLUDE_DIRS}
+                            ${Boost_INCLUDE_DIRS}
                             ${TBB_INCLUDE_DIRS}
                             ${CERES_INCLUDES}
 )
@@ -99,28 +99,28 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES builtin_interfaces geometry_msgs std_msgs action_msgs nav_msgs
 )
 
-set(CMAKE_AUTOMOC ON)
-find_package(Qt5 ${rviz_QT_VERSION} REQUIRED Core Widgets)
-set(QT_LIBRARIES Qt5::Widgets Qt5::Core)
-macro(qt_wrap_ui)
- qt5_wrap_ui(${ARGN})
-endmacro()
-macro(qt_wrap_cpp)
- qt5_wrap_cpp(${ARGN})
-endmacro()
+#set(CMAKE_AUTOMOC ON)
+#find_package(Qt5 ${rviz_QT_VERSION} REQUIRED Core Widgets)
+#set(QT_LIBRARIES Qt5::Widgets Qt5::Core)
+#macro(qt_wrap_ui)
+#  qt5_wrap_ui(${ARGN})
+#endmacro()
+#macro(qt_wrap_cpp)
+#  qt5_wrap_cpp(${ARGN})
+#endmacro()
 
-### rviz Plugin
-qt_wrap_cpp(MOC_FILES rviz_plugin/slam_toolbox_rviz_plugin.h)
-set(SOURCE_FILES rviz_plugin/slam_toolbox_rviz_plugin.cpp )
-set(HEADER_FILES rviz_plugin/slam_toolbox_rviz_plugin.h )
-add_library(SlamToolboxPlugin ${SOURCE_FILES} ${HEADER_FILES})
-ament_target_dependencies(SlamToolboxPlugin
- ${dependencies}
-)
-target_link_libraries(SlamToolboxPlugin kartoSlamToolbox ${rviz_DEFAULT_PLUGIN_LIBRARIES} ${QT_LIBRARIES})
-rosidl_target_interfaces(SlamToolboxPlugin ${PROJECT_NAME} "rosidl_typesupport_cpp")
-target_compile_definitions(SlamToolboxPlugin PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
-pluginlib_export_plugin_description_file(rviz_common rviz_plugins.xml)
+#### rviz Plugin
+#qt_wrap_cpp(MOC_FILES rviz_plugin/slam_toolbox_rviz_plugin.h)
+#set(SOURCE_FILES rviz_plugin/slam_toolbox_rviz_plugin.cpp )
+#set(HEADER_FILES rviz_plugin/slam_toolbox_rviz_plugin.h )
+#add_library(SlamToolboxPlugin ${SOURCE_FILES} ${HEADER_FILES})
+#ament_target_dependencies(SlamToolboxPlugin
+#  ${dependencies}
+#)
+#target_link_libraries(SlamToolboxPlugin kartoSlamToolbox ${rviz_DEFAULT_PLUGIN_LIBRARIES} ${QT_LIBRARIES})
+#rosidl_target_interfaces(SlamToolboxPlugin ${PROJECT_NAME} "rosidl_typesupport_cpp")
+#target_compile_definitions(SlamToolboxPlugin PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
+#pluginlib_export_plugin_description_file(slam_toolbox rviz_plugins.xml)
 
 #### Ceres Plugin
 add_library(ceres_solver_plugin solvers/ceres_solver.cpp)
@@ -200,7 +200,7 @@ install(DIRECTORY config
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(FILES solver_plugins.xml rviz_plugins.xml
+install(FILES solver_plugins.xml #rviz_plugins.xml
   DESTINATION share
 )
 
