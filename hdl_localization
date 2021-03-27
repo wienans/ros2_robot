@@ -1,0 +1,34 @@
+hdl_golbal_localization
+hdl_localization
+
+ros-kinetic-pcl-ros
+libpcl-dev
+libomp-dev
+
+ndt_omp
+
+libeigen3-dev
+or
+eigen3.3.7 download source
+mkdir build
+cd build
+cmake ..
+sudo make install
+
+Sophus
+mkdir build
+cd build
+cmake ..
+sudo make install
+
+cmake 3.19
+./bootstrap --prefix=$HOME/cmake-install
+make 
+make install
+export PATH=$HOME/cmake-install/bin:$PATH
+export CMAKE_PREFIX_PATH=$HOME/cmake-install:$CMAKE_PREFIX_PATH
+
+fast_gcip
+
+libopencv-dev
+
