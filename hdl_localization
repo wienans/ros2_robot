@@ -1,11 +1,15 @@
-hdl_golbal_localization
-hdl_localization
-
-ros-kinetic-pcl-ros
 libpcl-dev
 libomp-dev
+libopencv-dev
+ros-kinetic-tf2-geometry-msgs
 
-ndt_omp
+cmake 3.10.2
+./bootstrap --prefix=$HOME/cmake-install
+make 
+make install
+in .bashrc
+export PATH=$HOME/cmake-install/bin:$PATH
+export CMAKE_PREFIX_PATH=$HOME/cmake-install:$CMAKE_PREFIX_PATH
 
 libeigen3-dev
 or
@@ -21,14 +25,20 @@ cd build
 cmake ..
 sudo make install
 
-cmake 3.19
-./bootstrap --prefix=$HOME/cmake-install
-make 
-make install
-export PATH=$HOME/cmake-install/bin:$PATH
-export CMAKE_PREFIX_PATH=$HOME/cmake-install:$CMAKE_PREFIX_PATH
+delete build devel logs as cmake path has changed
+
+ndt_omp
+
+sudo apt purge ros-kinetic-pcl-ros
+pcl_ros from source
+https://github.com/ros-perception/perception_pcl/releases/tag/1.7.1
+
 
 fast_gcip
+add_compile_options(-std=c++11)
 
-libopencv-dev
+hdl_golbal_localization
+add_compile_options(-std=c++14)
 
+hdl_localization
+add_compile_options(-std=c++14)
