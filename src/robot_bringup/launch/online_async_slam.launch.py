@@ -21,6 +21,7 @@ def generate_launch_description():
         package='slam_toolbox',
         node_executable='async_slam_toolbox_node',
         name='slam_toolbox',
+        # prefix=['xterm -e gdb -ex run --args'],
         output='screen',
         remappings=[
             ("scan", "/base_2dlidar/out")]
