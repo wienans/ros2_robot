@@ -1,0 +1,44 @@
+libpcl-dev
+libomp-dev
+libopencv-dev
+ros-kinetic-tf2-geometry-msgs
+
+cmake 3.10.2
+./bootstrap --prefix=$HOME/cmake-install
+make 
+make install
+in .bashrc
+export PATH=$HOME/cmake-install/bin:$PATH
+export CMAKE_PREFIX_PATH=$HOME/cmake-install:$CMAKE_PREFIX_PATH
+
+libeigen3-dev
+or
+eigen3.3.7 download source
+mkdir build
+cd build
+cmake ..
+sudo make install
+
+Sophus
+mkdir build
+cd build
+cmake ..
+sudo make install
+
+delete build devel logs as cmake path has changed
+
+ndt_omp
+
+sudo apt purge ros-kinetic-pcl-ros
+pcl_ros from source
+https://github.com/ros-perception/perception_pcl/releases/tag/1.7.1
+
+
+fast_gcip
+add_compile_options(-std=c++11)
+
+hdl_golbal_localization
+add_compile_options(-std=c++14)
+
+hdl_localization
+add_compile_options(-std=c++14)
